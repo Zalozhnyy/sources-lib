@@ -5,10 +5,23 @@
 
 #include "iostream"
 
-void init_sources() {
-    auto s = new Sources();
-    s->init_sources();
-    delete s;
+#ifdef __cplusplus
+
+namespace SourcesAPI {
+    Sources* sources = nullptr;
+
+    void init_sources() {
+        sources = new Sources();
+        sources->init_sources();
+    }
+
+
+}
+
+#endif
+
+void init_sources(){
+    SourcesAPI::init_sources();
 }
 
 

@@ -1,0 +1,3 @@
+[submodule "GridStudio"]
+	path = GridStudio
+	url = git@github.com:antonkrv/GridStudio.git

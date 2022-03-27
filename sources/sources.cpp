@@ -24,16 +24,10 @@ void Sources::init_sources(){
     m_marpleData = r->getMarpleData();
     m_specters = r->getSpecters();
 
-    std::cout << m_influences[0].use_count() << std::endl;
     delete r;
-    std::cout << m_influences[0].use_count() << std::endl;
 
     createPartInfluenceMap();
 
-    std::cout << m_influences[0].use_count() << std::endl;
-
-
-    std::cout << "end" << std::endl;
 
 }
 
