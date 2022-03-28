@@ -9,6 +9,8 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(sources)
+add_subdirectory(GridStudio/data)
+
 include_directories(sources)
 
 add_executable(${PROJECT_NAME} main.c)

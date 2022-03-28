@@ -301,6 +301,22 @@ void SourceReader::readSpectresFile() {
     in.close();
 }
 
+GridData::Data SourceReader::getGrd(){
+    std::ifstream streamStart("START_N");
+    ProjectData::StartData projectStartData;
+    streamStart >> projectStartData;
+
+    std::ifstream streamProject(projectStartData.project_name);
+    ProjectData::Data projectData;
+    streamProject >> projectData;
+
+
+    std::ifstream streamGrd(projectData.grid_file_name);
+    GridData::Data gridData;
+    streamGrd >> gridData;
+
+    return gridData;
+}
 
 /*!
 * функциия запуска чтения потока remp_sources.json

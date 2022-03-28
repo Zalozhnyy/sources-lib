@@ -10,10 +10,10 @@
 #include <fstream>
 #include <iostream>
 #include "memory"
-#include "math.h"
+#include <cmath>
 
 
-void Sources::init_sources(){
+void Sources::init_sources() {
     auto r = new SourceReader();
 
     r->startReadRempSourcesJson();
@@ -24,16 +24,25 @@ void Sources::init_sources(){
     m_marpleData = r->getMarpleData();
     m_specters = r->getSpecters();
 
-    delete r;
+    if (m_lag->type == lagType::PLANE) {
+        auto grd = r->getGrd();
+        ptsX = GridData::getAxePoints(grd.axes[0]);;
+        ptsY = GridData::getAxePoints(grd.axes[1]);;
+        ptsZ = GridData::getAxePoints(grd.axes[2]);;
+        calcPlaneLagParameters();
+    }
 
     createPartInfluenceMap();
 
 
+    delete r;
 }
 
 void Sources::createPartInfluenceMap() {
 
     for (auto &m_influence: m_influences) {
+
+        m_InflNumber_InfluenceMap[m_influence->influenceNumber] = m_influence;
 
         for (auto source:
                 m_influence->VolumeSources)
@@ -52,7 +61,7 @@ void Sources::createPartInfluenceMap() {
 
 }
 
-void Sources::calcPlaneLagParameters(const grid& _grd) {
+void Sources::calcPlaneLagParameters() {
     if (m_lag->type == lagType::PLANE) {
         double n1, n2, n3, n;
 
@@ -70,10 +79,26 @@ void Sources::calcPlaneLagParameters(const grid& _grd) {
 
         // точка расчетной области, первой попадающаяся на пути плоского фронта
         // какой-то из углов
-        m_lag->plane_param[0] = n1 > 0 ? _grd->xi[0] : _grd->xi[_grd->nx];
-        m_lag->plane_param[1] = n2 > 0 ? _grd->yi[0] : _grd->yi[_grd->ny];
-        m_lag->plane_param[2] = n3 > 0 ? _grd->zi[0] : _grd->zi[_grd->nz];
+        m_lag->plane_param[0] = n1 > 0 ? ptsX[0] : ptsX[ptsX.size() - 1];
+        m_lag->plane_param[1] = n2 > 0 ? ptsY[0] : ptsY[ptsY.size() - 1];
+        m_lag->plane_param[2] = n3 > 0 ? ptsZ[0] : ptsZ[ptsZ.size() - 1];
     }
 }
 
+std::shared_ptr<Influence> Sources::getInfluenceByParticleNumber(int particleNumber) {
+
+    if (m_partInfluenceMap.count(particleNumber)) {
+        return m_partInfluenceMap[particleNumber];
+    } else {
+        return nullptr;
+    }
+}
+
+std::shared_ptr<Influence> Sources::getInfluenceByInfluenceNumber(int influenceNumber){
+    if (m_InflNumber_InfluenceMap[influenceNumber]) {
+        return m_InflNumber_InfluenceMap[influenceNumber];
+    } else {
+        return nullptr;
+    }
+}
 

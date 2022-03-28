@@ -6,6 +6,8 @@
 #define MAIN_PROJECT_SOURCES_READER_H
 
 #include "sources_datatypes.h"
+#include "project_data.h"
+#include "grid_data.h"
 
 #include "json/json.h"
 
@@ -21,19 +23,18 @@ public:
         std::cout << "SourceReader deleted" << std::endl;
     }
 
-    SourceReader() {
-    }
+    SourceReader() = default;
 
     void startReadRempSourcesJson();
     void readSpectresFile();
 
 
     std::vector<std::shared_ptr<Influence>> getInfluences();
-
     std::shared_ptr<Lag> getLag();
-
     std::shared_ptr<MarpleData> getMarpleData();
     std::unordered_map<std::string, int> getSpecters();
+    GridData::Data getGrd();
+
 
 
 private:
@@ -59,6 +60,7 @@ private:
     void readSources(const Json::Value::const_iterator &sourceTypes, Influence &influenceStruct);
 
     void startReadLag(const Json::Value::const_iterator &lagSource);
+
 
 };
 

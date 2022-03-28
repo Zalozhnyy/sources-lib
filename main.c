@@ -5,5 +5,6 @@
 int main() {
     printf("Hello, World!\n");
     init_sources();
+    printf("%e", getAmplitude(8));
     return 0;
 }

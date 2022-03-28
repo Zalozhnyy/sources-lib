@@ -6,6 +6,9 @@ extern "C" {
 #endif
 
 	void init_sources();
+    int getInfluenceNumber(int particleNumber);
+    double getAmplitude(int influenceNumber);
+
 
 #ifdef __cplusplus
 }

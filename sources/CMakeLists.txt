@@ -19,6 +19,9 @@ ${PROJECT_SOURCE_DIR}/*.h)
 add_library(${PROJECT_NAME} STATIC ${SORCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE jsoncpp_static)
+target_link_libraries(${PROJECT_NAME} PRIVATE Data)
+
+include_directories("../GridStudio/data")
 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
