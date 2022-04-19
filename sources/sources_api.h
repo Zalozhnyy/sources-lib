@@ -8,6 +8,13 @@ extern "C" {
 	void init_sources();
     int getInfluenceNumber(int particleNumber);
     double getAmplitude(int influenceNumber);
+    int getInfluenceCount();
+    int getLagState();
+    double getCNoLagValue(int inflIndex, double time);
+
+
+
+
 
 
 #ifdef __cplusplus

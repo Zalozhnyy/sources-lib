@@ -40,22 +40,21 @@ void Sources::init_sources() {
 
 void Sources::createPartInfluenceMap() {
 
-    for (auto &m_influence: m_influences) {
+    for (auto& influence: m_influences) {
 
-        m_InflNumber_InfluenceMap[m_influence->influenceNumber] = m_influence;
+        m_InflNumber_InfluenceMap[influence->influenceNumber] = influence;
 
-        for (auto source:
-                m_influence->VolumeSources)
-            m_partInfluenceMap[source->particleIndex] = m_influence;
-        for (auto source:
-                m_influence->Volume78Sources)
-            m_partInfluenceMap[source->particleIndex] = m_influence;
-        for (auto source:
-                m_influence->SurfaceSources)
-            m_partInfluenceMap[source->particleIndex] = m_influence;
-        for (auto source:
-                m_influence->BoundariesSources)
-            m_partInfluenceMap[source->particleIndex] = m_influence;
+        for (auto source: influence->VolumeSources)
+            m_partInfluenceMap[source->particleIndex] = influence;
+
+        for (auto source: influence->Volume78Sources)
+            m_partInfluenceMap[source->particleIndex] = influence;
+
+        for (auto source: influence->SurfaceSources)
+            m_partInfluenceMap[source->particleIndex] = influence;
+
+        for (auto source:influence->BoundariesSources)
+            m_partInfluenceMap[source->particleIndex] = influence;
 
     }
 
@@ -85,6 +84,7 @@ void Sources::calcPlaneLagParameters() {
     }
 }
 
+
 std::shared_ptr<Influence> Sources::getInfluenceByParticleNumber(int particleNumber) {
 
     if (m_partInfluenceMap.count(particleNumber)) {
@@ -94,11 +94,22 @@ std::shared_ptr<Influence> Sources::getInfluenceByParticleNumber(int particleNum
     }
 }
 
-std::shared_ptr<Influence> Sources::getInfluenceByInfluenceNumber(int influenceNumber){
+std::shared_ptr<Influence> Sources::getInfluenceByInfluenceNumber(int influenceNumber) {
     if (m_InflNumber_InfluenceMap[influenceNumber]) {
         return m_InflNumber_InfluenceMap[influenceNumber];
     } else {
         return nullptr;
     }
+}
+
+std::vector<int> Sources::getInfluenceNumbers() {
+    std::vector<int> numbers;
+
+    for (auto it = m_InflNumber_InfluenceMap.cbegin(); it != m_InflNumber_InfluenceMap.cend(); it++) {
+        numbers.push_back(it->first);
+    }
+
+
+    return numbers;
 }
 

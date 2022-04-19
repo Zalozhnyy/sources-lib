@@ -24,14 +24,21 @@ public:
 
     std::shared_ptr<Influence> getInfluenceByParticleNumber(int particleNumber);
     std::shared_ptr<Influence> getInfluenceByInfluenceNumber(int influenceNumber);
+    std::vector<int> getInfluenceNumbers();
+
+
+    int getInfluencesCount() {return (int)m_influences.size();}
+
+
+    std::shared_ptr<Lag> m_lag;
 
 
 private:
 
-    std::vector<std::shared_ptr<Influence>> m_influences;
-    std::shared_ptr<Lag> m_lag;
     std::shared_ptr<MarpleData> m_marpleData;
     std::unordered_map<std::string, int> m_specters;
+    std::vector<std::shared_ptr<Influence>> m_influences;
+
 
     std::map<int, std::shared_ptr<Influence>> m_partInfluenceMap;
     std::map<int, std::shared_ptr<Influence>> m_InflNumber_InfluenceMap;
