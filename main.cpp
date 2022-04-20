@@ -8,10 +8,12 @@ int main() {
     Sources s = Sources();
     s.init_sources();
 
-    auto numbers = s.getInfluenceNumbers();
+    auto influence = s.getInfluenceByInfluenceNumber(1);
 
-    for (auto& n : numbers){
-        std::cout << s.getInfluenceByInfluenceNumber(n)->influenceName << std::endl ;
+
+    for (auto it = influence->VolumeSources.cbegin(); it < influence->VolumeSources.cend(); it++){
+        std::cout << (*it)->layerIndex;
+
     }
 
 

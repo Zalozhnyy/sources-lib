@@ -26,18 +26,23 @@ public:
     std::shared_ptr<Influence> getInfluenceByInfluenceNumber(int influenceNumber);
     std::vector<int> getInfluenceNumbers();
 
+    int getSpectreNumber(std::string& spectreName);
+    int findFluxSpectre(const std::vector<int>& directions, const std::vector<std::string>& spNames, int direction);
+
+    lagType getLagType() {return m_lag->type;}
 
     int getInfluencesCount() {return (int)m_influences.size();}
 
 
-    std::shared_ptr<Lag> m_lag;
 
 
 private:
 
     std::shared_ptr<MarpleData> m_marpleData;
-    std::unordered_map<std::string, int> m_specters;
     std::vector<std::shared_ptr<Influence>> m_influences;
+    std::unordered_map<std::string, int> m_specters;
+    std::shared_ptr<Lag> m_lag;
+
 
 
     std::map<int, std::shared_ptr<Influence>> m_partInfluenceMap;

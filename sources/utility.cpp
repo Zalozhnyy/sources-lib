@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 
 /*!
@@ -96,5 +97,48 @@ std::vector<std::string> stringToVector(std::string str) { // split строки
         out.push_back(s);
     }
     return out;
+}
+
+
+/*!
+* Функция интерполяции временной функции.
+* \param time_vec - массив времён
+* \param e_min_vec - массив значений временной функции
+* \param time - значение времени, в котором необходимо получить временную функцию
+* \return значение временной функции при заданном времени
+*/
+double interpolation(std::vector<double>& time_vec, std::vector<double>& e_min_vec, double time)
+{
+    if (time_vec.empty()) {
+        return 0.0;
+    }
+
+    size_t first = 0;
+    size_t last = time_vec.size() - 1;
+    size_t med;
+    double kof, val = 0.0;
+    double e_min;
+
+    e_min = e_min_vec[0];
+
+    if (time >= time_vec[last]) {
+        e_min = e_min_vec[last];
+    } else if (time <= time_vec[first]) {
+        e_min = e_min_vec[first];
+    } else {
+        while ((last - first) > 1) {
+            med = (last - first) / 2 + first;
+
+            if (time <= time_vec[med]) {
+                last = med;
+            } else {
+                first = med;
+            }
+        }
+
+        kof = (time - time_vec[first]) / (time_vec[last] - time_vec[first]);
+        e_min = (e_min_vec[last] - e_min_vec[first]) * kof + e_min_vec[first];
+    }
+    return e_min;
 }
 

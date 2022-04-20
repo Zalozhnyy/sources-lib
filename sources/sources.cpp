@@ -11,6 +11,9 @@
 #include <iostream>
 #include "memory"
 #include <cmath>
+#include <stdexcept>
+#include <algorithm>
+
 
 
 void Sources::init_sources() {
@@ -112,4 +115,45 @@ std::vector<int> Sources::getInfluenceNumbers() {
 
     return numbers;
 }
+
+int Sources::getSpectreNumber(std::string& spectreName) {
+
+    if (m_specters.count(spectreName))
+    {
+        return m_specters[spectreName];
+    }
+
+    else
+    {
+        throw std::invalid_argument("unknown spectre name");
+    }
+
+}
+
+/*!
+* \brief функция проверяет тип спектра и ищет один из заданных спектров с нужным направлением.
+* \param spNames - имена спектров.
+* \param direction - направление.
+* \return индекс спектра в массиве spectres
+*/
+int Sources::findFluxSpectre(const std::vector<int>& directions, const std::vector<std::string>& spNames, int direction)
+{
+    if (directions.size() == 1 && directions[0] == -1) { // не .spc спектр
+        auto sp = spNames[0];
+        return getSpectreNumber(sp);
+    }
+
+    auto it = std::find(directions.begin(), directions.end(), direction);
+
+    if (it != directions.end()) {
+        auto index = std::distance(directions.begin(), it);
+
+        auto sp = spNames[0];
+        return getSpectreNumber(sp);
+    }
+
+    return -1;
+}
+
+
 

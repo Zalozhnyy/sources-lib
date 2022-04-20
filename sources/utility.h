@@ -25,4 +25,6 @@ std::vector<double> convertVectorDtype(const std::vector<std::string>& arr);
 std::vector<std::string> stringToVector(std::string str);
 void removeEOL(std::string& str);
 
+double interpolation(std::vector<double>& time_vec, std::vector<double>& e_min_vec, double time);
+
 #endif //SOURCES_UTILITY_H
