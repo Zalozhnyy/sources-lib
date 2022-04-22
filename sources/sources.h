@@ -41,7 +41,7 @@ private:
     std::shared_ptr<MarpleData> m_marpleData;
     std::vector<std::shared_ptr<Influence>> m_influences;
     std::unordered_map<std::string, int> m_specters;
-    std::shared_ptr<Lag> m_lag;
+    std::shared_ptr<Lag> m_lag = std::make_shared<Lag>();
 
 
 

@@ -8,12 +8,12 @@
 
 
 namespace {
-    std::shared_ptr<Sources> sources;
+    Sources sources;
 }
 
 
-void init_sources() {
-    sources->init_sources();
+void API_init_sources() {
+    sources.init_sources();
 }
 
 /*!
@@ -21,34 +21,34 @@ void init_sources() {
 * \return наличие задержки
 */
 int getLagState() {
-    return (sources->getLagType() == lagType::DISABLED) ? 0 : 1;
+    return (sources.getLagType() == lagType::DISABLED) ? 0 : 1;
 }
 
 
 int getInfluenceCount() {
-    return sources->getInfluencesCount();
+    return sources.getInfluencesCount();
 }
 
 int getFortInflNumber(int particleNumber) {
-    return sources->getInfluenceByParticleNumber(particleNumber)->influenceNumber;
+    return sources.getInfluenceByParticleNumber(particleNumber)->influenceNumber;
 }
 
 double getFortAmplitude(int influenceNumber) {
-    return sources->getInfluenceByInfluenceNumber(influenceNumber)->amplitude;
+    return sources.getInfluenceByInfluenceNumber(influenceNumber)->amplitude;
 }
 
 
 int getFortVolumeSpectre(int influenceNumber, int particleNumber, int layNumber){
     if (influenceNumber == 0) return -1;
 
-    auto influence = sources->getInfluenceByInfluenceNumber(influenceNumber);
+    auto influence = sources.getInfluenceByInfluenceNumber(influenceNumber);
 
     for (auto it = influence->VolumeSources.cbegin(); it < influence->VolumeSources.cend(); it++) {
 
         if ((*it)->layerIndex == layNumber &&
             (*it)->particleIndex == particleNumber &&
-            (*it)->sourceName == "Volume") {
-            return sources->getSpectreNumber((*it)->spNames[0]);
+            (*it)->sType == "Volume") {
+            return sources.getSpectreNumber((*it)->spNames[0]);
         }
     }
 
@@ -58,14 +58,14 @@ int getFortVolumeSpectre(int influenceNumber, int particleNumber, int layNumber)
 int getFortVolume78Spectre(int influenceNumber, int particleNumber, int layNumber){
     if (influenceNumber == 0) return -1;
 
-    auto influence = sources->getInfluenceByInfluenceNumber(influenceNumber);
+    auto influence = sources.getInfluenceByInfluenceNumber(influenceNumber);
 
     for (auto it = influence->Volume78Sources.cbegin(); it < influence->Volume78Sources.cend(); it++) {
 
         if ((*it)->layerIndex == layNumber &&
             (*it)->particleIndex == particleNumber &&
-            (*it)->sourceName == "Volume78") {
-            return sources->getSpectreNumber((*it)->spNames[0]);
+            (*it)->sType == "Volume78") {
+            return sources.getSpectreNumber((*it)->spNames[0]);
         }
     }
 
@@ -75,14 +75,14 @@ int getFortVolume78Spectre(int influenceNumber, int particleNumber, int layNumbe
 int getFortVolume78Distribution(int influenceNumber, int particleNumber, int layNumber){
     if (influenceNumber == 0) return -1;
 
-    auto influence = sources->getInfluenceByInfluenceNumber(influenceNumber);
+    auto influence = sources.getInfluenceByInfluenceNumber(influenceNumber);
 
     for (auto it = influence->Volume78Sources.cbegin(); it < influence->Volume78Sources.cend(); it++) {
 
         if ((*it)->layerIndex == layNumber &&
             (*it)->particleIndex == particleNumber &&
-            (*it)->sourceName == "Volume78") {
-            return sources->getSpectreNumber((*it)->spNames[0]);
+            (*it)->sType == "Volume78") {
+            return sources.getSpectreNumber((*it)->spNames[0]);
         }
     }
 
@@ -92,14 +92,14 @@ int getFortVolume78Distribution(int influenceNumber, int particleNumber, int lay
 int getFortBoundSpectre(int influenceNumber, int particleNumber, int direction){
     if (influenceNumber == 0) return -1;
 
-    auto influence = sources->getInfluenceByInfluenceNumber(influenceNumber);
+    auto influence = sources.getInfluenceByInfluenceNumber(influenceNumber);
 
     for (auto it = influence->BoundariesSources.cbegin(); it < influence->BoundariesSources.cend(); it++) {
 
         if ((*it)->direction == direction &&
             (*it)->particleIndex == particleNumber &&
-            (*it)->sourceName == "Boundaries") {
-            return sources->getSpectreNumber((*it)->spNames[0]);
+            (*it)->sType == "Boundaries") {
+            return sources.getSpectreNumber((*it)->spNames[0]);
         }
     }
 
@@ -109,15 +109,15 @@ int getFortBoundSpectre(int influenceNumber, int particleNumber, int direction){
 int getFortFluxSpectre(int influenceNumber, int particleNumber, int layNumberFrom, int layNumberTo, int direction){
     if (influenceNumber == 0) return -1;
 
-    auto influence = sources->getInfluenceByInfluenceNumber(influenceNumber);
+    auto influence = sources.getInfluenceByInfluenceNumber((const int)influenceNumber);
 
     for (auto it = influence->SurfaceSources.cbegin(); it < influence->SurfaceSources.cend(); it++) {
 
         if ((*it)->layerIndexFrom == layNumberFrom &&
             (*it)->layerIndexTo == layNumberTo &&
             (*it)->particleIndex == particleNumber &&
-            (*it)->sourceName == "Boundaries") {
-            return sources->findFluxSpectre((*it)->direction, (*it)->spNames, direction);
+            (*it)->sType == "Flux") {
+            return sources.findFluxSpectre((*it)->direction, (*it)->spNames, direction);
         }
     }
 

@@ -17,28 +17,23 @@
 
 
 void Sources::init_sources() {
-    auto r = new SourceReader();
+    auto r = SourceReader(m_influences, m_lag, m_marpleData, m_specters);
 
-    r->startReadRempSourcesJson();
-    r->readSpectresFile();
+    r.startReadRempSourcesJson();
+    r.readSpectresFile();
 
-    m_influences = r->getInfluences();
-    m_lag = r->getLag();
-    m_marpleData = r->getMarpleData();
-    m_specters = r->getSpecters();
 
-    if (m_lag->type == lagType::PLANE) {
-        auto grd = r->getGrd();
-        ptsX = GridData::getAxePoints(grd.axes[0]);;
-        ptsY = GridData::getAxePoints(grd.axes[1]);;
-        ptsZ = GridData::getAxePoints(grd.axes[2]);;
-        calcPlaneLagParameters();
-    }
+//    if (m_lag->type == lagType::PLANE) {
+//        auto grd = r->getGrd();
+//        ptsX = GridData::getAxePoints(grd.axes[0]);;
+//        ptsY = GridData::getAxePoints(grd.axes[1]);;
+//        ptsZ = GridData::getAxePoints(grd.axes[2]);;
+//        calcPlaneLagParameters();
+//    }
 
     createPartInfluenceMap();
 
 
-    delete r;
 }
 
 void Sources::createPartInfluenceMap() {
@@ -97,8 +92,8 @@ std::shared_ptr<Influence> Sources::getInfluenceByParticleNumber(int particleNum
     }
 }
 
-std::shared_ptr<Influence> Sources::getInfluenceByInfluenceNumber(int influenceNumber) {
-    if (m_InflNumber_InfluenceMap[influenceNumber]) {
+std::shared_ptr<Influence> Sources::getInfluenceByInfluenceNumber(const int influenceNumber) {
+    if (m_InflNumber_InfluenceMap.count(influenceNumber)) {
         return m_InflNumber_InfluenceMap[influenceNumber];
     } else {
         return nullptr;
@@ -148,7 +143,7 @@ int Sources::findFluxSpectre(const std::vector<int>& directions, const std::vect
     if (it != directions.end()) {
         auto index = std::distance(directions.begin(), it);
 
-        auto sp = spNames[0];
+        auto sp = spNames[index];
         return getSpectreNumber(sp);
     }
 

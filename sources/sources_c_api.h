@@ -5,7 +5,7 @@
 //extern "C" {
 //#endif
 
-void init_sources();
+void API_init_sources();
 int getLagState();
 int getInfluenceCount();
 double getCNoLagValue(int inflIndex, double time);

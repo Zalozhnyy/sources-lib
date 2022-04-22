@@ -336,7 +336,7 @@ void SourceReader::startReadRempSourcesJson()
             if (it.key() == "Influences")  // заход итератора в ключ Influences
                 for (auto influence = it->begin(); influence != it->end(); ++influence) {  // итерация по воздействиям и задержке
                     if (influence.key() != "Lag") {
-                        auto p_influence = std::make_unique<Influence>(influence.key().asString());
+                        auto p_influence = std::make_shared<Influence>(influence.key().asString());
                         readInfluence(influence, *p_influence);
                         m_influences.push_back(std::move(p_influence));
                     }
@@ -361,22 +361,6 @@ void SourceReader::startReadRempSourcesJson()
         fprintf(stderr, "Cannot open file %s\n", s);
         exit(1);
     }
-}
-
-std::vector<std::shared_ptr<Influence>> SourceReader::getInfluences() {
-    return std::move(m_influences);
-}
-
-std::shared_ptr<Lag> SourceReader::getLag() {
-    return std::move(m_lag);
-}
-
-std::shared_ptr<MarpleData> SourceReader::getMarpleData() {
-    return std::move(m_marpleData);
-}
-
-std::unordered_map<std::string, int> SourceReader::getSpecters() {
-    return m_spectres;
 }
 
 

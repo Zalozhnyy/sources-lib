@@ -23,26 +23,31 @@ public:
         std::cout << "SourceReader deleted" << std::endl;
     }
 
-    SourceReader() = default;
+    SourceReader(
+            std::vector<std::shared_ptr<Influence>>& influences,
+            std::shared_ptr<Lag>& lag,
+            std::shared_ptr<MarpleData>& marpleData,
+            std::unordered_map<std::string, int>&  spectres):
+            m_influences(influences),
+            m_lag(lag),
+            m_marpleData(marpleData),
+            m_spectres(spectres)
+            {}
 
     void startReadRempSourcesJson();
     void readSpectresFile();
 
 
-    std::vector<std::shared_ptr<Influence>> getInfluences();
-    std::shared_ptr<Lag> getLag();
-    std::shared_ptr<MarpleData> getMarpleData();
-    std::unordered_map<std::string, int> getSpecters();
     GridData::Data getGrd();
 
 
 
 private:
 
-    std::vector<std::shared_ptr<Influence>> m_influences;
-    std::shared_ptr<Lag> m_lag = std::make_shared<Lag>();
-    std::shared_ptr<MarpleData> m_marpleData = std::make_shared<MarpleData>();
-    std::unordered_map<std::string, int> m_spectres;
+    std::vector<std::shared_ptr<Influence>>& m_influences;
+    std::shared_ptr<Lag>& m_lag;
+    std::shared_ptr<MarpleData>& m_marpleData;
+    std::unordered_map<std::string, int>& m_spectres;
 
 
     void readInfluence(const Json::Value::const_iterator &influence, Influence &influenceStruct);
