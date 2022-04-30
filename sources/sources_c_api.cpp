@@ -2,6 +2,7 @@
 
 #include "sources_c_api.h"
 #include "sources.h"
+#include "utility.h"
 
 #include "iostream"
 #include "memory"
@@ -123,6 +124,41 @@ int getFortFluxSpectre(int influenceNumber, int particleNumber, int layNumberFro
 
     return -1;
 }
+
+/*!
+* функция возвращает значение временной функции в заданный момент времени без учета задержки
+* \param influenceNumber
+* \param time
+* \return значение временной функции
+*/
+double getCNoLagValue(int influenceNumber, double time)
+{
+    if (influenceNumber == 0) return -1;
+    auto influence = sources.getInfluenceByInfluenceNumber((const int)influenceNumber);
+
+
+    return interpolation(influence->tfTime, influence->tfValue, time) * influence->amplitude;
+}
+
+/*!
+* функция возвращает значение временной функции в заданный момент времени с учетом задержки
+* \param influenceNumber
+* \param x
+* \param y
+* \param z
+* \param time
+* \return значение временной функции
+*/
+double getCLagValue(int influenceNumber, double x, double y, double z, double time)
+{
+    if (influenceNumber == 0) return -1;
+    auto influence = sources.getInfluenceByInfluenceNumber((const int)influenceNumber);
+
+    auto t = sources.time_lag(x, y, z, time);
+    if (t < 0) return 0.0;
+    return interpolation(influence->tfTime, influence->tfValue, t) * influence->amplitude;
+}
+
 
 
 

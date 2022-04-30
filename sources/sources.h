@@ -33,6 +33,7 @@ public:
 
     int getInfluencesCount() {return (int)m_influences.size();}
 
+    double time_lag(double x, double y, double z, double t);
 
 
 

@@ -8,6 +8,9 @@
 
 #include "json/json.h"
 
+#define _cl 2.99792458E+10 /*!< скорость света [см/с]. */
+
+
 const float SOURCES_VERSION = 1.0; /*!< необходимая версия файла remp_sources.json */
 
 void check_sources_version(Json::Value& root);

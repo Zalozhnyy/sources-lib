@@ -23,13 +23,13 @@ void Sources::init_sources() {
     r.readSpectresFile();
 
 
-//    if (m_lag->type == lagType::PLANE) {
-//        auto grd = r->getGrd();
-//        ptsX = GridData::getAxePoints(grd.axes[0]);;
-//        ptsY = GridData::getAxePoints(grd.axes[1]);;
-//        ptsZ = GridData::getAxePoints(grd.axes[2]);;
-//        calcPlaneLagParameters();
-//    }
+    if (m_lag->type == lagType::PLANE) {
+        auto grd = r.getGrd();
+        ptsX = GridData::getAxePoints(grd.axes[0]);;
+        ptsY = GridData::getAxePoints(grd.axes[1]);;
+        ptsZ = GridData::getAxePoints(grd.axes[2]);;
+        calcPlaneLagParameters();
+    }
 
     createPartInfluenceMap();
 
@@ -148,6 +148,37 @@ int Sources::findFluxSpectre(const std::vector<int>& directions, const std::vect
     }
 
     return -1;
+}
+
+
+double Sources::time_lag(double x, double y, double z, double t)
+{
+    double r = 0.;
+
+    if (m_lag->type == lagType::SPHERE) {
+        r = sqrt((m_lag->param[0] - x) * (m_lag->param[0] - x)
+                 + (m_lag->param[1] - y) * (m_lag->param[1] - y)
+                 + (m_lag->param[2] - z) * (m_lag->param[2] - z));
+    } else if (m_lag->type == lagType::PLANE) {
+        double x0, y0, z0;
+        double n1, n2, n3;
+
+        x0 = m_lag->plane_param[0]; // точка, первой попадающаяся на пути фронта
+        y0 = m_lag->plane_param[1]; // в момент времени 0 фронт ее проходит
+        z0 = m_lag->plane_param[2];
+
+        n1 = m_lag->param[0]; // направление распространения фронта
+        n2 = m_lag->param[1];
+        n3 = m_lag->param[2];
+        //r = abs(n1 * (x0 - x)) + abs(n2 * (y0 - y)) + abs(n3 * (z0 - z));
+        r = abs(n1 * (x0 - x) + n2 * (y0 - y) + n3 * (z0 - z));
+    } else if (m_lag->type == lagType::DISABLED) {
+        r = 0.;
+    }
+    const double out = t - r / _cl;
+
+    //return ((out < 0.0) ? 0.0 : out);
+    return out;
 }
 
 

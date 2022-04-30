@@ -5,12 +5,12 @@
 //extern "C" {
 //#endif
 
-void API_init_sources();
-int getLagState();
-int getInfluenceCount();
-double getCNoLagValue(int inflIndex, double time);
-double getCLagValue(int inflIndex, double x, double y, double z, double time);
-int getFortInflNumber(int particleNumber);
+void API_init_sources(); //+
+int getLagState(); //+
+int getInfluenceCount(); //+
+double getCNoLagValue(int influenceNumber, double time); //+
+double getCLagValue(int influenceNumber, double x, double y, double z, double time); //+
+int getFortInflNumber(int particleNumber); //+
 double getFortAmplitude(int influenceNumber);
 double getFortNoLagValue(int influenceNumber, double time);
 double getFortLagValue(int influenceNumber, double x, double y, double z, double time);
