@@ -8,8 +8,9 @@ enable_language(CXX)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(sources)
 add_subdirectory(GridStudio/data)
+add_subdirectory(sources)
+add_subdirectory(sources/tests)
 
 include_directories(sources)
 

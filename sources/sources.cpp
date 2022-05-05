@@ -17,12 +17,19 @@
 
 
 void Sources::init_sources() {
-    auto r = SourceReader(m_influences, m_lag, m_marpleData, m_specters);
+    auto r = initReader();
+    initLag(r);
+    createPartInfluenceMap();
+}
 
-    r.startReadRempSourcesJson();
-    r.readSpectresFile();
+void Sources::init_sources(std::string& jsonString, std::string& spectres){
+    auto r = initReader(jsonString, spectres);
+    initLag(r);
+    createPartInfluenceMap();
+}
 
 
+void Sources::initLag(SourceReader& r){
     if (m_lag->type == lagType::PLANE) {
         auto grd = r.getGrd();
         ptsX = GridData::getAxePoints(grd.axes[0]);;
@@ -30,10 +37,20 @@ void Sources::init_sources() {
         ptsZ = GridData::getAxePoints(grd.axes[2]);;
         calcPlaneLagParameters();
     }
+}
 
-    createPartInfluenceMap();
+SourceReader Sources::initReader(){
+    auto r = SourceReader(m_influences, m_lag, m_marpleData, m_specters);
+    r.startReadRempSourcesJson();
+    r.readSpectresFile();
+    return r;
+}
 
-
+SourceReader Sources::initReader(std::string& jsonString, std::string& spectres){
+    auto r = SourceReader(m_influences, m_lag, m_marpleData, m_specters);
+    r.startReadRempSourcesJson(jsonString);
+    r.readSpectresFile(spectres);
+    return r;
 }
 
 void Sources::createPartInfluenceMap() {
@@ -124,6 +141,18 @@ int Sources::getSpectreNumber(std::string& spectreName) {
     }
 
 }
+
+std::string Sources::getSpectreName(int spectreNumber){
+    auto it = m_specters.cbegin();
+
+    for (; it != m_specters.cend(); it++){
+        if (it->second == spectreNumber){
+            return it->first;
+        }
+    }
+    return "not_found";
+}
+
 
 /*!
 * \brief функция проверяет тип спектра и ищет один из заданных спектров с нужным направлением.

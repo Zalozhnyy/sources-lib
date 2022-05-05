@@ -8,6 +8,7 @@
 #include "sources_datatypes.h"
 #include "project_data.h"
 #include "grid_data.h"
+//#include "../GridStudio/data/project_data.h"
 
 #include "json/json.h"
 
@@ -35,7 +36,10 @@ public:
             {}
 
     void startReadRempSourcesJson();
+    void startReadRempSourcesJson(std::string& jsonString);
+
     void readSpectresFile();
+    void readSpectresFile(std::string& spectre);
 
 
     GridData::Data getGrd();
@@ -66,8 +70,13 @@ private:
 
     void startReadLag(const Json::Value::const_iterator &lagSource);
 
+    void readFromJsonValue(Json::Value& root);
 
-};
+    void readSectre(std::istream &in);
+
+
+
+    };
 
 
 #endif //MAIN_PROJECT_SOURCES_READER_H

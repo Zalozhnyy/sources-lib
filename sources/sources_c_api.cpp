@@ -17,6 +17,10 @@ void API_init_sources() {
     sources.init_sources();
 }
 
+void API_init_sources(std::string& jsonString, std::string& spectres){
+    sources.init_sources(jsonString, spectres);
+}
+
 /*!
 * функция возвращает наличие задержки
 * \return наличие задержки
@@ -157,6 +161,11 @@ double getCLagValue(int influenceNumber, double x, double y, double z, double ti
     auto t = sources.time_lag(x, y, z, time);
     if (t < 0) return 0.0;
     return interpolation(influence->tfTime, influence->tfValue, t) * influence->amplitude;
+}
+
+
+std::string getSpectreName(int spectreIndex){
+    return sources.getSpectreName(spectreIndex);
 }
 
 

@@ -11,21 +11,19 @@
 #include <fstream>
 
 
-
 /*!
 * функциия заполнения Энерговыделения воздействия
 * \param sigmaSource - Итератор.
 * \param s - ссылка структуру источника.
 */
-void SourceReader::readDistributionSource(const Json::Value::const_iterator &sigmaSource, Distribution& s)
-{
+void SourceReader::readDistributionSource(const Json::Value::const_iterator &sigmaSource, Distribution &s) {
     std::string typeBuff, spBuff;
     int layerIndexBuff = -1;
 
     for (auto sigma = (*sigmaSource).begin(); sigma != (*sigmaSource).end(); ++sigma) {
-        if (sigma.key() == "Type")              typeBuff = sigma->asString();
-        if (sigma.key() == "Layer index")       layerIndexBuff = sigma->asInt();
-        if (sigma.key() == "Distribution")      spBuff = sigma->asString();
+        if (sigma.key() == "Type") typeBuff = sigma->asString();
+        if (sigma.key() == "Layer index") layerIndexBuff = sigma->asInt();
+        if (sigma.key() == "Distribution") spBuff = sigma->asString();
     }
 
     s.sType = typeBuff;
@@ -38,19 +36,18 @@ void SourceReader::readDistributionSource(const Json::Value::const_iterator &sig
 * \param surfSource - Итератор.
 * \param s - ссылка структуру источника.
 */
-void SourceReader::readSurfaceSource(const Json::Value::const_iterator &surfSource, SurfaceSource& s)
-{
+void SourceReader::readSurfaceSource(const Json::Value::const_iterator &surfSource, SurfaceSource &s) {
     std::string typeBuff, spBuff, spNumberBuff, spDirectionBuff;
     int particleIndexBuff = -1, layerIndexFromBuff = -1, layerIndexToBuff = -1;
 
     for (auto surface = (*surfSource).begin(); surface != (*surfSource).end(); ++surface) {
-        if (surface.key() == "Type")                typeBuff = surface->asString();
-        if (surface.key() == "Layer index from")    layerIndexFromBuff = surface->asInt();
-        if (surface.key() == "Layer index to")      layerIndexToBuff = surface->asInt();
-        if (surface.key() == "Particle index")      particleIndexBuff = surface->asInt();
-        if (surface.key() == "Spectre")             spBuff = surface->asString();
-        if (surface.key() == "Spectre number")      spNumberBuff = surface->asString();
-        if (surface.key() == "Direction")           spDirectionBuff = surface->asString();
+        if (surface.key() == "Type") typeBuff = surface->asString();
+        if (surface.key() == "Layer index from") layerIndexFromBuff = surface->asInt();
+        if (surface.key() == "Layer index to") layerIndexToBuff = surface->asInt();
+        if (surface.key() == "Particle index") particleIndexBuff = surface->asInt();
+        if (surface.key() == "Spectre") spBuff = surface->asString();
+        if (surface.key() == "Spectre number") spNumberBuff = surface->asString();
+        if (surface.key() == "Direction") spDirectionBuff = surface->asString();
     }
 
     s.layerIndexFrom = layerIndexFromBuff;
@@ -67,18 +64,17 @@ void SourceReader::readSurfaceSource(const Json::Value::const_iterator &surfSour
 * \param surfSource - Итератор.
 * \param s - ссылка структуру источника.
 */
-void SourceReader::readBoundSource(const Json::Value::const_iterator &surfSource, BoundariesSource& s)
-{
+void SourceReader::readBoundSource(const Json::Value::const_iterator &surfSource, BoundariesSource &s) {
     std::string typeBuff, spBuff, spNumberBuff;
     int particleIndexBuff = -1;
     int directionBuff = -1;
 
     for (auto bound = surfSource->begin(); bound != surfSource->end(); ++bound) {
-        if (bound.key() == "Type")              typeBuff = bound->asString();
-        if (bound.key() == "Particle index")    particleIndexBuff = bound->asInt();
-        if (bound.key() == "Direction")         directionBuff = bound->asInt();
-        if (bound.key() == "Spectre")           spBuff = bound->asString();
-        if (bound.key() == "Spectre number")    spNumberBuff = bound->asString();
+        if (bound.key() == "Type") typeBuff = bound->asString();
+        if (bound.key() == "Particle index") particleIndexBuff = bound->asInt();
+        if (bound.key() == "Direction") directionBuff = bound->asInt();
+        if (bound.key() == "Spectre") spBuff = bound->asString();
+        if (bound.key() == "Spectre number") spNumberBuff = bound->asString();
     }
 
     s.particleIndex = particleIndexBuff;
@@ -93,13 +89,11 @@ void SourceReader::readBoundSource(const Json::Value::const_iterator &surfSource
 * \param lagSource - итератор.
 * \param lag - ссылка структуру задержки.
 */
-void SourceReader::startReadLag(const Json::Value::const_iterator &lagSource)
-{
+void SourceReader::startReadLag(const Json::Value::const_iterator &lagSource) {
     for (auto l = lagSource->begin(); l != lagSource->end(); ++l) {
         if (l.key() == "Type") {
             int type = l->asInt();
-            switch (type)
-            {
+            switch (type) {
                 case 0:
                     m_lag->type = lagType::DISABLED;
                     break;
@@ -122,18 +116,17 @@ void SourceReader::startReadLag(const Json::Value::const_iterator &lagSource)
 * \param volSource - Итератор.
 * \param s - ссылка структуру источника.
 */
-void SourceReader::readVolumeSource(const Json::Value::const_iterator &volSource, VolumeSource& s)
-{
+void SourceReader::readVolumeSource(const Json::Value::const_iterator &volSource, VolumeSource &s) {
     std::string typeBuff, spBuff, spNumberBuff;
     int particleIndexBuff = -1;
     int layerIndexBuff = -1;
 
     for (auto volume = volSource->begin(); volume != volSource->end(); ++volume) {
-        if (volume.key() == "Type")             typeBuff = volume->asString();
-        if (volume.key() == "Layer index")      layerIndexBuff = volume->asInt();
-        if (volume.key() == "Particle index")   particleIndexBuff = volume->asInt();
-        if (volume.key() == "Spectre")          spBuff = volume->asString();
-        if (volume.key() == "Spectre number")   spNumberBuff = volume->asString();
+        if (volume.key() == "Type") typeBuff = volume->asString();
+        if (volume.key() == "Layer index") layerIndexBuff = volume->asInt();
+        if (volume.key() == "Particle index") particleIndexBuff = volume->asInt();
+        if (volume.key() == "Spectre") spBuff = volume->asString();
+        if (volume.key() == "Spectre number") spNumberBuff = volume->asString();
     }
 
     s.layerIndex = layerIndexBuff;
@@ -148,18 +141,18 @@ void SourceReader::readVolumeSource(const Json::Value::const_iterator &volSource
 * \param volSource - Итератор.
 * \param s - ссылка структуру источника.
 */
-void SourceReader::readVolume78Source(const Json::Value::const_iterator &volSource, Volume78Source& s) {
+void SourceReader::readVolume78Source(const Json::Value::const_iterator &volSource, Volume78Source &s) {
     std::string typeBuff, spBuff, spNumberBuff, distrubutionBuff;
     int particleIndexBuff = -1;
     int layerIndexBuff = -1;
 
     for (auto volume = volSource->begin(); volume != volSource->end(); ++volume) {
-        if (volume.key() == "Type")             typeBuff = volume->asString();
-        if (volume.key() == "Layer index")      layerIndexBuff = volume->asInt();
-        if (volume.key() == "Particle index")   particleIndexBuff = volume->asInt();
-        if (volume.key() == "Spectre")          spBuff = volume->asString();
-        if (volume.key() == "Spectre number")   spNumberBuff = volume->asString();
-        if (volume.key() == "Distribution")     distrubutionBuff = volume->asString();
+        if (volume.key() == "Type") typeBuff = volume->asString();
+        if (volume.key() == "Layer index") layerIndexBuff = volume->asInt();
+        if (volume.key() == "Particle index") particleIndexBuff = volume->asInt();
+        if (volume.key() == "Spectre") spBuff = volume->asString();
+        if (volume.key() == "Spectre number") spNumberBuff = volume->asString();
+        if (volume.key() == "Distribution") distrubutionBuff = volume->asString();
     }
 
     s.layerIndex = layerIndexBuff;
@@ -175,13 +168,12 @@ void SourceReader::readVolume78Source(const Json::Value::const_iterator &volSour
 * \param influence - Итератор.
 * \param influenceStruct - ссылка на массив структур воздействий.
 */
-void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, Influence& influenceStruct)
-{
+void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, Influence &influenceStruct) {
     for (auto sType = sourceTypes->begin(); sType != sourceTypes->end(); ++sType) {
 
         if (sType.key() == "Currents") {
             for (auto s = (*sType).begin(); s != (*sType).end(); ++s) {
-                Distribution* r = new Distribution(s.key().asString());
+                Distribution *r = new Distribution(s.key().asString());
                 readDistributionSource(s, *r);
                 influenceStruct.Distributions.push_back(r);
             }
@@ -189,7 +181,7 @@ void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, I
 
         if (sType.key() == "Sigmas") {
             for (auto s = (*sType).begin(); s != (*sType).end(); ++s) {
-                Distribution* r = new Distribution(s.key().asString());
+                Distribution *r = new Distribution(s.key().asString());
                 readDistributionSource(s, *r);
                 influenceStruct.Distributions.push_back(r);
             }
@@ -197,7 +189,7 @@ void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, I
 
         if (sType.key() == "Surface") {
             for (auto s = (*sType).begin(); s != (*sType).end(); ++s) {
-                SurfaceSource* r = new SurfaceSource(s.key().asString());
+                SurfaceSource *r = new SurfaceSource(s.key().asString());
                 readSurfaceSource(s, *r);
                 influenceStruct.SurfaceSources.push_back(r);
             }
@@ -205,7 +197,7 @@ void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, I
 
         if (sType.key() == "Volume") {
             for (auto s = (*sType).begin(); s != (*sType).end(); ++s) {
-                VolumeSource* r = new VolumeSource(s.key().asString());
+                VolumeSource *r = new VolumeSource(s.key().asString());
                 readVolumeSource(s, *r);
                 influenceStruct.VolumeSources.push_back(r);
             }
@@ -213,7 +205,7 @@ void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, I
 
         if (sType.key() == "Volume78") {
             for (auto s = (*sType).begin(); s != (*sType).end(); ++s) {
-                Volume78Source* r = new Volume78Source(s.key().asString());
+                Volume78Source *r = new Volume78Source(s.key().asString());
                 readVolume78Source(s, *r);
                 influenceStruct.Volume78Sources.push_back(r);
             }
@@ -221,7 +213,7 @@ void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, I
 
         if (sType.key() == "From boundaries") {
             for (auto s = (*sType).begin(); s != (*sType).end(); ++s) {
-                BoundariesSource* r = new BoundariesSource(s.key().asString());
+                BoundariesSource *r = new BoundariesSource(s.key().asString());
                 readBoundSource(s, *r);
                 influenceStruct.BoundariesSources.push_back(r);
             }
@@ -235,8 +227,7 @@ void SourceReader::readSources(const Json::Value::const_iterator &sourceTypes, I
 * \param influenceStruct - ссылка на массив структур воздействий.
 * \return void
 */
-void SourceReader::readInfluence(const Json::Value::const_iterator &influence, Influence& influenceStruct)
-{
+void SourceReader::readInfluence(const Json::Value::const_iterator &influence, Influence &influenceStruct) {
 
     for (auto influence_keys = influence->begin(); influence_keys != influence->end(); ++influence_keys) {
         if (influence_keys.key() == "Sources") {
@@ -245,8 +236,10 @@ void SourceReader::readInfluence(const Json::Value::const_iterator &influence, I
         if (influence_keys.key() == "Time function") {  // заход в блок Time function
             for (auto tf = (*influence_keys).begin(); tf != (*influence_keys).end(); ++tf) {
                 if (tf.key() == "Count") influenceStruct.tfCount = tf->asInt();
-                if (tf.key() == "Time") influenceStruct.tfTime = convertVectorDtype<double>(stringToVector(tf->asString()));
-                if (tf.key() == "Value") influenceStruct.tfValue = convertVectorDtype<double>(stringToVector(tf->asString()));
+                if (tf.key() == "Time")
+                    influenceStruct.tfTime = convertVectorDtype<double>(stringToVector(tf->asString()));
+                if (tf.key() == "Value")
+                    influenceStruct.tfValue = convertVectorDtype<double>(stringToVector(tf->asString()));
             }
         }
 
@@ -262,46 +255,62 @@ void SourceReader::readInfluence(const Json::Value::const_iterator &influence, I
 void SourceReader::readSpectresFile() {
     std::string fName = "spectres";
     std::ifstream in(fName);
-    std::string line;
 
-    int i = 0, j = 0;
     if (in.is_open()) {
+        readSectre(in);
+    }
 
-        getline(in, line); //head
-        getline(in, line); // spectres num
-        int sp_count = std::stoi(line);
-        for (int i = 0; i < sp_count; i++) {
-            if (!getline(in, line)) return;
-
-            // remove end-of-line endings
-            removeEOL(line);
-
-            m_spectres.insert(std::make_pair(line, i));
-        }
-
-        if (!getline(in, line)) return; //head volume distributions
-        if (line.find("<Volume78 distributions>") == std::string::npos) return;
-        getline(in, line); // distributions count
-        int distr_count = std::stoi(line);
-
-        for (int i = 0; i < distr_count; i++) {
-            if (!getline(in, line)) return;
-
-            // remove end-of-line endings
-            removeEOL(line);
-
-            m_spectres.insert(std::make_pair(line, i));
-
-        }
-    } else {
+    else {
         char s[100] = "spectres";
         fprintf(stderr, "Cannot open file %s\n", s);
         exit(1);
     }
     in.close();
+
 }
 
-GridData::Data SourceReader::getGrd(){
+void SourceReader::readSpectresFile(std::string& spectre) {
+    std::stringstream ss;
+    ss << spectre;
+    readSectre(ss);
+}
+
+
+void SourceReader::readSectre(std::istream &in) {
+    std::string line;
+
+    int i = 0, j = 0;
+
+    getline(in, line); //head
+    getline(in, line); // spectres num
+    int sp_count = std::stoi(line);
+    for (; i < sp_count; i++) {
+        if (!getline(in, line)) return;
+
+        // remove end-of-line endings
+        removeEOL(line);
+
+        m_spectres.insert(std::make_pair(line, i));
+    }
+
+    if (!getline(in, line)) return; //head volume distributions
+    if (line.find("<Volume78 distributions>") == std::string::npos) return;
+    getline(in, line); // distributions count
+    int distr_count = std::stoi(line);
+
+    for (; i < distr_count + sp_count; i++) {
+        if (!getline(in, line)) return;
+
+        // remove end-of-line endings
+        removeEOL(line);
+
+        m_spectres.insert(std::make_pair(line, i));
+
+    }
+
+}
+
+GridData::Data SourceReader::getGrd() {
     std::ifstream streamStart("START_N");
     ProjectData::StartData projectStartData;
     streamStart >> projectStartData;
@@ -323,44 +332,56 @@ GridData::Data SourceReader::getGrd(){
 * \param infl - ссылка на массив структур воздействий.
 * \param lag - ссылка структуру задержки.
 */
-void SourceReader::startReadRempSourcesJson()
-{
+void SourceReader::startReadRempSourcesJson() {
     std::ifstream istrm(std::string("remp_sources.json"));
     if (istrm) {
         Json::Value root;
         istrm >> root;
-
-        check_sources_version(root);
-
-        for (auto it = root.begin(); it != root.end(); ++it) {  // цикл чтения первого уровня
-            if (it.key() == "Influences")  // заход итератора в ключ Influences
-                for (auto influence = it->begin(); influence != it->end(); ++influence) {  // итерация по воздействиям и задержке
-                    if (influence.key() != "Lag") {
-                        auto p_influence = std::make_shared<Influence>(influence.key().asString());
-                        readInfluence(influence, *p_influence);
-                        m_influences.push_back(std::move(p_influence));
-                    }
-                    else if (influence.key() == "Lag") { // чтение задержки
-                        startReadLag(influence);
-                    }
-                }
-            if (it.key() == "Marple") {
-                for (auto marple = it->begin(); marple != it->end(); ++marple) {
-                    if (marple.key() == "Sigma") m_marpleData->marpleSigmaFileName = marple->asString();
-                    if (marple.key() == "Ionization") m_marpleData->marpleIonFileName = marple->asString();
-                }
-            }
-        }
-
-//        print_log_message("Influences has been initialized");
-    }
-
-    else {
+        readFromJsonValue(root);
+    } else {
         char s[100] = "remp_sources.json";
 //        print_log_message("remp_sources.json not found\n");
         fprintf(stderr, "Cannot open file %s\n", s);
         exit(1);
     }
+}
+
+void SourceReader::startReadRempSourcesJson(std::string &jsonString) {
+    Json::Value root;
+    std::stringstream ss;
+    ss << jsonString;
+    ss >> root;
+
+    readFromJsonValue(root);
+}
+
+
+void SourceReader::readFromJsonValue(Json::Value &root) {
+
+    check_sources_version(root);
+
+    for (auto it = root.begin(); it != root.end(); ++it) {  // цикл чтения первого уровня
+        if (it.key() == "Influences")  // заход итератора в ключ Influences
+            for (auto influence = it->begin();
+                 influence != it->end(); ++influence) {  // итерация по воздействиям и задержке
+                if (influence.key() != "Lag") {
+                    auto p_influence = std::make_shared<Influence>(influence.key().asString());
+                    readInfluence(influence, *p_influence);
+                    m_influences.push_back(std::move(p_influence));
+                } else if (influence.key() == "Lag") { // чтение задержки
+                    startReadLag(influence);
+                }
+            }
+        if (it.key() == "Marple") {
+            for (auto marple = it->begin(); marple != it->end(); ++marple) {
+                if (marple.key() == "Sigma") m_marpleData->marpleSigmaFileName = marple->asString();
+                if (marple.key() == "Ionization") m_marpleData->marpleIonFileName = marple->asString();
+            }
+        }
+    }
+
+//        print_log_message("Influences has been initialized");
+
 }
 
 
